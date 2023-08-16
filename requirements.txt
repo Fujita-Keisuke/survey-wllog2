@@ -4,3 +4,9 @@ numpy==1.24.2
 gspread==5.8.0
 google==3.0.0
 gspread_dataframe==3.3.0
+google-api-core==2.11.0
+google-api-python-client==2.83.0
+google-auth==2.16.3
+google-auth-httplib2==0.1.0
+google-auth-oauthlib==1.0.0
+googleapis-common-protos==1.59.0
