@@ -4,6 +4,7 @@ import numpy as np
 import datetime
 import gspread
 from google.oauth2.service_account import Credentials
+from google.oauth2 import service_account
 from gspread_dataframe import set_with_dataframe
 import time
 
