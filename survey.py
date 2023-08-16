@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import datetime
+import pytz
 import gspread
 from google.oauth2.service_account import Credentials
 from google.oauth2 import service_account
@@ -682,7 +683,7 @@ elif st.session_state.page == 3:
             women_sympt_3 = 0
             women_sympt_4 = 0
 
-        now = datetime.datetime.today()
+        now = now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))#datetime.datetime.today()
         _data = {
             "日時": [now],
             "ユーザーID": [user_id],
