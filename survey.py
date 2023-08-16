@@ -39,7 +39,7 @@ def gspread_read(SP_SHEET_KEY, SP_SHEET):
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
     ]
-    credentials = Credentials.from_service_account_file(
+    credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_service_account"],
         scopes=scopes
     )
@@ -54,7 +54,7 @@ def gspread_write(SP_SHEET_KEY, SP_SHEET, data):
     'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/drive'
     ]
-    credentials = Credentials.from_service_account_file(
+    credentials = service_account.Credentials.from_service_account_info(
         st.secrets["gcp_service_account"],
         scopes=scopes
     )
