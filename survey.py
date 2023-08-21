@@ -757,11 +757,11 @@ elif st.session_state.page == 3:
     st.write("##### Q.あなたの現在のココロの状態を教えてください")
     st.write("###### ココロの状態：ストレスを感じている、不安があるなど")
     selected_mental = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_mental", label_visibility="collapsed", index = value_mental)
-    #st.session_state.selected_mental = selected_mental
+    st.session_state.selected_mental = selected_mental
     st.write("##### Q.あなたの現在のカラダの状態を教えてください")
     st.write("###### カラダの状態：カラダがだるい・重い、頭痛や肩こりが辛いなど")
     selected_physical = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_physical",label_visibility="collapsed", index = value_physical)
-    #st.session_state.selected_physical = selected_physical
+    st.session_state.selected_physical = selected_physical
     selected_menstruation = np.nan
     #selected_options_osiri =  np.nan
     #selected_options_bidet = np.nan
