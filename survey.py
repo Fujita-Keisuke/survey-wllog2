@@ -301,7 +301,7 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         "当てはまる行動はない": [options_3],
         "おしり洗浄": [wash_0],
         "ビデ洗浄": [wash_1],
-        "洗浄していない": [wash_2],
+        "ウォシュレット洗浄していない": [wash_2],
         "おしり洗浄を排尿に使用": [osiri_0],
         "おしり洗浄を排便に使用": [osiri_1],
         "おしり洗浄をデリケートゾーンのケアに使用": [osiri_2],
@@ -575,7 +575,10 @@ if st.session_state.page == 1:
                         flg_osiri_2 = 0
                         flg_bidet_2 = 1
                 st.session_state.selected_options_bidet = selected_options_bidet
-
+    if len(selected_options_osiri) > 0:
+        st.session_state.selected_options_osiri = selected_options_osiri
+    if len(selected_options_bidet) > 0:
+        st.session_state.selected_options_bidet = selected_options_bidet
     if not any(selected_options):
         if st.button("次へ", key="error1_1"):
             st.error('トイレで実施した行動を入力してください:e1-1')
