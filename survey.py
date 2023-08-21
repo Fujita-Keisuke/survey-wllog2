@@ -310,10 +310,10 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         "ビデ洗浄をデリケートゾーンのケアに使用": [bidet_2],
         "尿量": [small_amount],
         "ブリストルスケール": [bristol],
-        "①生理のケア": [women_sympt_0],
-        "②おりもののケア": [women_sympt_1],
-        "③蒸れ、かゆみ、においの緩和": [women_sympt_2],
-        "④リフレッシュ": [women_sympt_3],
+        "生理用品の交換": [women_sympt_0],
+        "おりものシートの交換": [women_sympt_1],
+        "ウェットティッシュでの拭き取り": [women_sympt_2],
+        "スプレーやクリームの使用": [women_sympt_3],
         "その他": [women_sympt_4]
     }
     _df = pd.DataFrame(data = _data)
@@ -380,7 +380,7 @@ if st.session_state.page == 1:
     users_id_men = list(range(101,111))
     users_id_women = list(range(201,211))
     users_id = users_id_men + users_id_women
-    st.write("##### ユーザーIDを入力してください")
+    st.write("##### あなたのユーザーIDを入力してください")
     _user_id = st.session_state.user_id
     user_index=0
     _selected_options = st.session_state.selected_options
@@ -405,10 +405,10 @@ if st.session_state.page == 1:
     user_id = st.selectbox("",users_id, label_visibility="collapsed", index=user_index)
 
 ##############男女分岐
-    st.write("##### Q.今回トイレで実施した行動を教えてください(複数選択可)")
+    st.write("##### Q.今回トイレで実施した行動をすべて選択してください")
     if user_id < 200:
         options_action = [
-            "排尿", "排便", "休憩等、何もしていない"
+            "排尿", "排便", "休憩等、何もしていない"#休憩、その他
         ]
         col1, col2, col3 = st.columns(3)
         selected_options = []
@@ -424,7 +424,7 @@ if st.session_state.page == 1:
         selected_options.append(col3.checkbox(options_action[2], key="options_3", value=value_options_3))
     elif user_id >= 201:
         options_action = [
-            "排尿", "排便", "デリケートゾーンのケア", "休憩等、何もしていない"
+            "排尿", "排便", "デリケートゾーンのケア", "休憩等、何もしていない"#,休憩、その他
         ]
         col1, col2, col3, col4 = st.columns(4)
         selected_options = []
@@ -442,15 +442,12 @@ if st.session_state.page == 1:
         selected_options.append(col3.checkbox(options_action[2], key="options_3", value=value_options_3))
         selected_options.append(col4.checkbox(options_action[3], key="options_4", value=value_options_4))
 
-    if user_id >= 201:
-        st.write("###### ※デリケートゾーンのケア：経血やおりもの等、デリケートゾーンに関するケア全般")
-
     ##############洗浄選択
-    st.write("##### Q.今回使ったウォシュレット洗浄を選択して下さい")
+    st.write("##### Q.今回使ったウォシュレット洗浄をすべて選択してください")
     options_wash = [
         "おしり洗浄",
         "ビデ洗浄",
-        "洗浄していない",
+        "ウォシュレット洗浄していない",
     ]
     col1, col2, col3 = st.columns(3)
     selected_wash = []
@@ -470,7 +467,7 @@ if st.session_state.page == 1:
     options_bidet = []
     if selected_options[-1] == False:
         if (selected_wash[0] == True) or (selected_wash[1] == True):
-            st.write("##### Q.今回使ったウォシュレット洗浄の目的を選択して下さい")
+            st.write("##### Q.今回使ったウォシュレット洗浄の目的をすべて選択してください")
             if selected_wash[0] == True:
                 if selected_options[0] == True:
                     options_osiri.append(f"{options_wash[0]}を{options_action[0]}のケアに使った")
@@ -680,13 +677,13 @@ elif st.session_state.page == 2:
     if selected_options[2] == True:
         st.write("#### ■デリケートゾーンのケアに関する質問")
         options_women = [
-            "①生理のケア",
-            "②おりもののケア",
-            "③蒸れ、かゆみ、においの緩和",
-            "④リフレッシュ",
+            "生理用品の交換",
+            "おりものシートの交換",
+            "ウェットティッシュで拭き取る",
+            "スプレーやクリームを使う",
             "その他"
         ]
-        st.write("##### Q.デリケートゾーンのケアについて具体的にどようなことをしましたか？(MA)")
+        st.write("##### Q.実施したケア内容をすべて選択してください")
         selected_women_sympt = []
         _selected_women_sympt = st.session_state.selected_women_sympt
         value_women_1 = False
@@ -722,7 +719,7 @@ elif st.session_state.page == 2:
             else:
                     free_text = st.text_input("その他のケア内容を入力してください", key="free_text_input_3")
                     selected_women_sympt.append(free_text)
-        st.image("dcare.jpg", width = 500)
+        #st.image("dcare.jpg", width = 500)
         st.session_state.selected_women_sympt = selected_women_sympt
         if not any(selected_women_sympt):
             if st.button("次へ",key="error2-1"):
@@ -740,30 +737,30 @@ elif st.session_state.page == 3:
     selected_wash = st.session_state.selected_wash
     st.title("その他質問")
     _selected_mental = st.session_state.selected_mental
-    if _selected_mental == "良い":
+    if _selected_mental == "晴れ":
         value_mental = 0
-    elif _selected_mental == "普通":
+    elif _selected_mental == "曇り":
         value_mental = 1
-    elif _selected_mental == "悪い":
+    elif _selected_mental == "雨":
         value_mental = 2
     else:
         value_mental = 0
     _selected_physical = st.session_state.selected_physical
-    if _selected_physical == "良い":
+    if _selected_physical == "晴れ":
         value_physical = 0
-    elif _selected_physical == "普通":
+    elif _selected_physical == "曇り":
         value_physical = 1
-    elif _selected_physical == "悪い":
+    elif _selected_physical == "雨":
         value_physical = 2
     else:
         value_physical = 0
     st.write("##### Q.あなたの現在のココロの状態を教えてください")
     st.write("###### ココロの状態：ストレスを感じている、不安があるなど")
-    selected_mental = st.radio("", ("良い", "普通", "悪い"), horizontal=True, key="selected_mental", label_visibility="collapsed", index = value_mental)
+    selected_mental = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_mental", label_visibility="collapsed", index = value_mental)
     #st.session_state.selected_mental = selected_mental
     st.write("##### Q.あなたの現在のカラダの状態を教えてください")
     st.write("###### カラダの状態：カラダがだるい・重い、頭痛や肩こりが辛いなど")
-    selected_physical = st.radio("", ("良い", "普通", "悪い"), horizontal=True, key="selected_physical",label_visibility="collapsed", index = value_physical)
+    selected_physical = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_physical",label_visibility="collapsed", index = value_physical)
     #st.session_state.selected_physical = selected_physical
     selected_menstruation = np.nan
     #selected_options_osiri =  np.nan
