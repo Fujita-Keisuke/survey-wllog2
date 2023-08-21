@@ -64,19 +64,19 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
 ##############データ処理
     st.write(selected_mental)
     st.write(selected_physical)
-    if selected_mental == "雨":
-        mental = 1
+    if selected_mental == "晴れ":
+        mental = 3
     elif selected_mental == "曇り":
         mental = 2
     else:
-        mental = 3
+        mental = 1
 
-    if selected_physical == "雨":
-        physical = 1
+    if selected_physical == "晴れ":
+        physical = 3
     elif selected_physical == "曇り":
         physical = 2
     else:
-        physical = 3
+        physical = 1
     st.write(mental)
     st.write(physical)
     if selected_menstruation == "いいえ":
@@ -391,7 +391,6 @@ if st.session_state.page == 1:
     value_options_2 = False
     value_options_3 = False
     value_options_4 = False
-    value_options_5 = False
     _selected_wash = st.session_state.selected_wash
     value_wash_1 = False
     value_wash_2 = False
@@ -760,11 +759,11 @@ elif st.session_state.page == 3:
     st.write("##### Q.あなたの現在のココロの状態を教えてください")
     st.write("###### ココロの状態：ストレスを感じている、不安があるなど")
     selected_mental = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_mental", label_visibility="collapsed", index = value_mental)
-    #st.session_state.selected_mental = selected_mental
+    st.session_state.selected_mental = selected_mental
     st.write("##### Q.あなたの現在のカラダの状態を教えてください")
     st.write("###### カラダの状態：カラダがだるい・重い、頭痛や肩こりが辛いなど")
     selected_physical = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_physical",label_visibility="collapsed", index = value_physical)
-    #st.session_state.selected_physical = selected_physical
+    st.session_state.selected_physical = selected_physical
     selected_menstruation = np.nan
     ##############女性のみ
     if user_id >= 201:
