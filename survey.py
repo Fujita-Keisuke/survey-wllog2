@@ -62,16 +62,16 @@ def click_2(page):
     st.session_state.page = page
 def click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, page):
 ##############データ処理
-    if selected_mental == "悪い":
+    if selected_mental == "雨":
         mental = 1
-    elif selected_mental == "普通":
+    elif selected_mental == "曇り":
         mental = 2
     else:
         mental = 3
 
-    if selected_physical == "悪い":
+    if selected_physical == "雨":
         physical = 1
-    elif selected_physical == "普通":
+    elif selected_physical == "曇り":
         physical = 2
     else:
         physical = 3
@@ -298,7 +298,7 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         "排尿": [options_0],
         "排便": [options_1],
         "デリケートゾーンのケア": [options_2],
-        "休憩等、何もしていない": [options_3],
+        "当てはまる行動はない": [options_3],
         "おしり洗浄": [wash_0],
         "ビデ洗浄": [wash_1],
         "洗浄していない": [wash_2],
@@ -388,6 +388,7 @@ if st.session_state.page == 1:
     value_options_2 = False
     value_options_3 = False
     value_options_4 = False
+    value_options_5 = False
     _selected_wash = st.session_state.selected_wash
     value_wash_1 = False
     value_wash_2 = False
@@ -408,7 +409,7 @@ if st.session_state.page == 1:
     st.write("##### Q.今回トイレで実施した行動をすべて選択してください")
     if user_id < 200:
         options_action = [
-            "排尿", "排便", "休憩等、何もしていない"#休憩、その他
+            "排尿", "排便", "当てはまる行動はない"
         ]
         col1, col2, col3 = st.columns(3)
         selected_options = []
@@ -419,12 +420,12 @@ if st.session_state.page == 1:
                 value_options_2 = True
             if _selected_options[2] == True:
                 value_options_3 = True
-        selected_options.append(col1.checkbox(options_action[0], key="options_1", value=value_options_1))
-        selected_options.append(col2.checkbox(options_action[1], key="options_2", value=value_options_2))
-        selected_options.append(col3.checkbox(options_action[2], key="options_3", value=value_options_3))
+        selected_options.append(col1.checkbox(options_action[0], key="options_1_1", value=value_options_1))
+        selected_options.append(col2.checkbox(options_action[1], key="options_2_1", value=value_options_2))
+        selected_options.append(col3.checkbox(options_action[2], key="options_3_1", value=value_options_3))
     elif user_id >= 201:
         options_action = [
-            "排尿", "排便", "デリケートゾーンのケア", "休憩等、何もしていない"#,休憩、その他
+            "排尿", "排便", "デリケートゾーンのケア", "当てはまる行動はない"
         ]
         col1, col2, col3, col4 = st.columns(4)
         selected_options = []
@@ -437,10 +438,10 @@ if st.session_state.page == 1:
                 value_options_3 = True
             if _selected_options[3] == True:
                 value_options_4 = True
-        selected_options.append(col1.checkbox(options_action[0], key="options_1", value=value_options_1))
-        selected_options.append(col2.checkbox(options_action[1], key="options_2", value=value_options_2))
-        selected_options.append(col3.checkbox(options_action[2], key="options_3", value=value_options_3))
-        selected_options.append(col4.checkbox(options_action[3], key="options_4", value=value_options_4))
+        selected_options.append(col1.checkbox(options_action[0], key="options_1_2", value=value_options_1))
+        selected_options.append(col2.checkbox(options_action[1], key="options_2_2", value=value_options_2))
+        selected_options.append(col3.checkbox(options_action[2], key="options_3_2", value=value_options_3))
+        selected_options.append(col4.checkbox(options_action[3], key="options_4_2", value=value_options_4))
 
     ##############洗浄選択
     st.write("##### Q.今回使ったウォシュレット洗浄をすべて選択してください")
