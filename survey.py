@@ -575,10 +575,6 @@ if st.session_state.page == 1:
                         flg_osiri_2 = 0
                         flg_bidet_2 = 1
                 st.session_state.selected_options_bidet = selected_options_bidet
-    if len(selected_options_osiri) > 0:
-        st.session_state.selected_options_osiri = selected_options_osiri
-    if len(selected_options_bidet) > 0:
-        st.session_state.selected_options_bidet = selected_options_bidet
     if not any(selected_options):
         if st.button("次へ", key="error1_1"):
             st.error('トイレで実施した行動を入力してください:e1-1')
