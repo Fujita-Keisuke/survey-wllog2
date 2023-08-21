@@ -62,6 +62,8 @@ def click_2(page):
     st.session_state.page = page
 def click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, page):
 ##############データ処理
+    st.write(selected_mental)
+    st.write(selected_physical)
     if selected_mental == "雨":
         mental = 1
     elif selected_mental == "曇り":
@@ -75,7 +77,8 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         physical = 2
     else:
         physical = 3
-
+    st.write(mental)
+    st.write(physical)
     if selected_menstruation == "いいえ":
         menstruation = 1
     elif selected_menstruation == "はい(1~3日目程度の多い日)":
