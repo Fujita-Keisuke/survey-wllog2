@@ -33,7 +33,6 @@ div.stButton > button:first-child  {{
 }}
 </style>
 """
-flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2
 # button_css_back = f"""
 # <style>
 # div.stButton > button:first-child  {{
