@@ -33,6 +33,7 @@ div.stButton > button:first-child  {{
 }}
 </style>
 """
+flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2
 # button_css_back = f"""
 # <style>
 # div.stButton > button:first-child  {{
@@ -60,10 +61,8 @@ def click_1(user_id, selected_options, selected_wash, page):
     st.session_state.page = page
 def click_2(page):
     st.session_state.page = page
-def click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, page):
+def click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, selected_options_osiri, selected_options_bidet, flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2, page):
 ##############データ処理
-    st.write(selected_mental)
-    st.write(selected_physical)
     if selected_mental == "晴れ":
         mental = 3
     elif selected_mental == "曇り":
@@ -77,8 +76,6 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         physical = 2
     else:
         physical = 1
-    st.write(mental)
-    st.write(physical)
     if selected_menstruation == "いいえ":
         menstruation = 1
     elif selected_menstruation == "はい(1~3日目程度の多い日)":
@@ -126,7 +123,6 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         wash_2 = 0
 
     if flg_osiri_0 == 1:
-        selected_options_osiri = st.session_state.selected_options_osiri
         if selected_options_osiri[0] == True:
             osiri_0 = 1
         else:
@@ -177,7 +173,6 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
                 osiri_2 = 0
 
     if flg_bidet_0 == 1:
-        selected_options_bidet = st.session_state.selected_options_bidet
         if selected_options_bidet[0] == True:
             bidet_0 = 1
         else:
@@ -328,8 +323,8 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
     gspread_write(SP_SHEET_KEY, SP_SHEET, df)
     st.session_state.page = 4
 def click_4(selected_mental, selected_physical, selected_menstruation, page):
-    st.session_state.selected_mental = selected_mental
-    st.session_state.selected_physical = selected_physical
+    st.session_state.mental = selected_mental
+    st.session_state.physical = selected_physical
     st.session_state.selected_menstruation = selected_menstruation
     st.session_state.page = page
 def gspread_read(SP_SHEET_KEY, SP_SHEET):
@@ -372,8 +367,8 @@ if 'page' not in st.session_state:
     st.session_state.selected_small_amount = []
     st.session_state.selected_big_bristol = []
     st.session_state.selected_women_sympt = []
-    st.session_state.selected_mental = []
-    st.session_state.selected_physical = []
+    st.session_state.mental = []
+    st.session_state.physical = []
     st.session_state.selected_menstruation = []
     st.session_state.page = 1
 
@@ -577,6 +572,12 @@ if st.session_state.page == 1:
                         flg_osiri_2 = 0
                         flg_bidet_2 = 1
                 st.session_state.selected_options_bidet = selected_options_bidet
+    st.session_state.flg_osiri_0 = flg_osiri_0
+    st.session_state.flg_osiri_1 = flg_osiri_1
+    st.session_state.flg_osiri_2 = flg_osiri_2
+    st.session_state.flg_bidet_0 = flg_bidet_0
+    st.session_state.flg_bidet_1 = flg_bidet_1
+    st.session_state.flg_bidet_2 = flg_bidet_2
     if not any(selected_options):
         if st.button("次へ", key="error1_1"):
             st.error('トイレで実施した行動を入力してください:e1-1')
@@ -738,7 +739,7 @@ elif st.session_state.page == 3:
     selected_options = st.session_state.selected_options
     selected_wash = st.session_state.selected_wash
     st.title("その他質問")
-    _selected_mental = st.session_state.selected_mental
+    _selected_mental = st.session_state.mental
     if _selected_mental == "晴れ":
         value_mental = 0
     elif _selected_mental == "曇り":
@@ -747,7 +748,7 @@ elif st.session_state.page == 3:
         value_mental = 2
     else:
         value_mental = 0
-    _selected_physical = st.session_state.selected_physical
+    _selected_physical = st.session_state.physical
     if _selected_physical == "晴れ":
         value_physical = 0
     elif _selected_physical == "曇り":
@@ -756,14 +757,16 @@ elif st.session_state.page == 3:
         value_physical = 2
     else:
         value_physical = 0
+    selected_options_osiri =st.session_state.selected_options_osiri
+    selected_options_bidet =st.session_state.selected_options_bidet
     st.write("##### Q.あなたの現在のココロの状態を教えてください")
     st.write("###### ココロの状態：ストレスを感じている、不安があるなど")
     selected_mental = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_mental", label_visibility="collapsed", index = value_mental)
-    st.session_state.selected_mental = selected_mental
+    st.session_state.mental = selected_mental
     st.write("##### Q.あなたの現在のカラダの状態を教えてください")
     st.write("###### カラダの状態：カラダがだるい・重い、頭痛や肩こりが辛いなど")
     selected_physical = st.radio("", ("晴れ", "曇り", "雨"), horizontal=True, key="selected_physical",label_visibility="collapsed", index = value_physical)
-    st.session_state.selected_physical = selected_physical
+    st.session_state.physical = selected_physical
     selected_menstruation = np.nan
     ##############女性のみ
     if user_id >= 201:
@@ -779,7 +782,13 @@ elif st.session_state.page == 3:
         st.write("##### Q.あなたは現在、月経期間中ですか？")
         selected_menstruation = st.radio("", ("いいえ", "はい(1~3日目程度の多い日)", "はい(4日目以降程度の少ない日)"), horizontal=True,label_visibility="collapsed", index = value_menstruation)
         st.session_state.selected_menstruation = selected_menstruation
-    st.button("結果を送信",key="result", on_click=lambda:click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, 4))
+    flg_osiri_0 = st.session_state.flg_osiri_0
+    flg_osiri_1 = st.session_state.flg_osiri_1
+    flg_osiri_2 = st.session_state.flg_osiri_2
+    flg_bidet_0 = st.session_state.flg_bidet_0
+    flg_bidet_1 = st.session_state.flg_bidet_1
+    flg_bidet_2 = st.session_state.flg_bidet_2
+    st.button("結果を送信",key="result", on_click=lambda:click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, selected_options_osiri, selected_options_bidet, flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2, 4))
     if selected_options[0] or selected_options[1] or selected_options[-2] == True:
         st.button("戻る",key="page3to2", on_click=lambda:click_4(selected_mental, selected_physical, selected_menstruation, 2))
     else:
