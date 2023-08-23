@@ -374,8 +374,8 @@ if 'page' not in st.session_state:
 if st.session_state.page == 1:
     st.title("トイレ利用に関するアンケート")
 ##############ユーザーID入力
-    users_id_men = list(range(101,111))
-    users_id_women = list(range(201,211))
+    users_id_men = list(range(101,121))
+    users_id_women = list(range(201,221))
     users_id = users_id_men + users_id_women
     st.write("##### あなたのユーザーIDを入力してください")
     _user_id = st.session_state.user_id
