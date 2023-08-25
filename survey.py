@@ -462,6 +462,8 @@ if st.session_state.page == 1:
 ##############マトリックス質問
     options_osiri = []
     options_bidet = []
+    selected_options_osiri = []
+    selected_options_bidet = []
     if selected_options[-1] == False:
         if (selected_wash[0] == True) or (selected_wash[1] == True):
             st.write("##### Q.今回使ったウォシュレット洗浄の目的をすべて選択してください")
@@ -513,10 +515,10 @@ if st.session_state.page == 1:
                     if len(options_osiri) > 2:
                         col5, col6 = st.columns(2)
                         if _selected_options_osiri:
-                            if _selected_options_osiri[2] == True:
+                            if _selected_options_osiri[-1] == True:
                                 value_options_osiri_3 = True
                         if _selected_options_bidet:
-                            if _selected_options_bidet[2] == True:
+                            if _selected_options_bidet[-1] == True:
                                 value_options_bidet_3 = True
                         selected_options_osiri.append(col5.checkbox(options_osiri[2], key="options_wash_5", value=value_options_osiri_3))
                         selected_options_bidet.append(col6.checkbox(options_bidet[2], key="options_wash_6", value=value_options_bidet_3))
@@ -526,6 +528,7 @@ if st.session_state.page == 1:
                 st.session_state.selected_options_bidet = selected_options_bidet
             elif len(options_bidet) == 0:
                 selected_options_osiri = []
+                selected_options_bidet = []
                 if _selected_options_osiri:
                     if _selected_options_osiri[0] == True:
                         value_options_osiri_1 = True
@@ -541,7 +544,7 @@ if st.session_state.page == 1:
                     flg_bidet_1 = 0
                     if len(options_osiri) > 2:
                         if _selected_options_osiri:
-                            if _selected_options_osiri[2] == True:
+                            if _selected_options_osiri[-1] == True:
                                 value_options_osiri_3 = True
                         selected_options_osiri.append(st.checkbox(options_osiri[2], key="options_wash_9", value=value_options_osiri_3))
                         flg_osiri_2 = 1
@@ -549,6 +552,7 @@ if st.session_state.page == 1:
                 st.session_state.selected_options_osiri = selected_options_osiri
         else:
             if len(options_bidet) > 0:
+                selected_options_osiri = []
                 selected_options_bidet = []
                 if _selected_options_bidet:
                     if _selected_options_bidet[0] == True:
@@ -565,7 +569,7 @@ if st.session_state.page == 1:
                     flg_bidet_1 = 1
                     if len(options_bidet) > 2:
                         if _selected_options_bidet:
-                            if _selected_options_bidet[2] == True:
+                            if _selected_options_bidet[-1] == True:
                                 value_options_bidet_3 = True
                         selected_options_bidet.append(st.checkbox(options_bidet[2], key="options_wash_12", value=value_options_bidet_3))
                         flg_osiri_2 = 0
