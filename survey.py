@@ -60,8 +60,16 @@ def click_1(user_id, selected_options, selected_wash, page):
     st.session_state.page = page
 def click_2(page):
     st.session_state.page = page
-def click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, selected_options_osiri, selected_options_bidet, flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2, page):
+def click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, selected_options_osiri, selected_options_bidet, flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2, selected_toilet, page):
 ##############データ処理
+    if selected_toilet == "①":
+        toilet = 1
+    elif selected_toilet == "②":
+        toilet = 2
+    elif selected_toilet == "③":
+        toilet = 3
+    else:
+        toilet = 0
     if selected_mental == "晴れ":
         mental = 3
     elif selected_mental == "曇り":
@@ -311,7 +319,8 @@ def click_3(user_id, selected_options, selected_wash, selected_mental, selected_
         "おりものシートの交換": [women_sympt_1],
         "ウェットティッシュでの拭き取り": [women_sympt_2],
         "スプレーやクリームの使用": [women_sympt_3],
-        "その他": [women_sympt_4]
+        "その他": [women_sympt_4],
+        "利用したトイレブース":[toilet]
     }
     _df = pd.DataFrame(data = _data)
     #st.dataframe(_df)
@@ -360,6 +369,7 @@ def gspread_write(SP_SHEET_KEY, SP_SHEET, data):
 if 'page' not in st.session_state:
     st.session_state.selected_options = []
     st.session_state.user_id = []
+    st.session_state.selected_toilet = []
     st.session_state.selected_wash = []
     st.session_state.selected_options_osiri = []
     st.session_state.selected_options_bidet = []
@@ -374,12 +384,14 @@ if 'page' not in st.session_state:
 if st.session_state.page == 1:
     st.title("トイレ利用に関するアンケート")
 ##############ユーザーID入力
-    users_id_men = list(range(101,121))
-    users_id_women = list(range(201,221))
+    users_id_men = list(range(101,122))
+    users_id_women = list(range(201,222))
     users_id = users_id_men + users_id_women
     st.write("##### あなたのユーザーIDを入力してください")
     _user_id = st.session_state.user_id
     user_index=0
+    _selected_toilet = st.session_state.selected_toilet
+    value_toilet=0
     _selected_options = st.session_state.selected_options
     value_options_1 = False
     value_options_2 = False
@@ -400,7 +412,21 @@ if st.session_state.page == 1:
     if _user_id:
         user_index = users_id.index(_user_id)
     user_id = st.selectbox("",users_id, label_visibility="collapsed", index=user_index)
-
+    selected_toilet = np.nan
+    if user_id <200:
+        if _selected_toilet:
+            if _selected_toilet == "①":
+                value_toilet = 0
+            elif _selected_toilet == "②":
+                value_toilet = 1
+            elif _selected_toilet == "③":
+                value_toilet = 2
+            else:
+                value_toilet = 0
+        st.write("##### Q.今回利用したトイレブースを選択してください")
+        selected_toilet = st.radio("", ("①", "②", "③"), horizontal=True,label_visibility="collapsed", index = value_toilet)
+        st.image("toilet.jpg", width = 300)
+    st.session_state.selected_toilet = selected_toilet
 ##############男女分岐
     st.write("##### Q.今回トイレで実施した行動をすべて選択してください")
     if user_id < 200:
@@ -791,7 +817,8 @@ elif st.session_state.page == 3:
     flg_bidet_0 = st.session_state.flg_bidet_0
     flg_bidet_1 = st.session_state.flg_bidet_1
     flg_bidet_2 = st.session_state.flg_bidet_2
-    st.button("結果を送信",key="result", on_click=lambda:click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, selected_options_osiri, selected_options_bidet, flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2, 4))
+    selected_toilet = st.session_state.selected_toilet
+    st.button("結果を送信",key="result", on_click=lambda:click_3(user_id, selected_options, selected_wash, selected_mental, selected_physical, selected_menstruation, selected_options_osiri, selected_options_bidet, flg_osiri_0, flg_osiri_1, flg_osiri_2, flg_bidet_0, flg_bidet_1, flg_bidet_2, selected_toilet,4))
     if selected_options[0] or selected_options[1] or selected_options[-2] == True:
         st.button("戻る",key="page3to2", on_click=lambda:click_4(selected_mental, selected_physical, selected_menstruation, 2))
     else:
